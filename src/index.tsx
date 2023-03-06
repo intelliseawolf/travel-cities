@@ -3,9 +3,14 @@ import ReactDOM from "react-dom/client";
 
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { makeServer } from "./mock-backend";
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+
+if (process.env.NODE_ENV === "development") {
+  makeServer({ environment: "development" });
+}
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
