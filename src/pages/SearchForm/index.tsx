@@ -1,40 +1,15 @@
 import { useState } from "react";
-import { Card, Row, Col } from "react-bootstrap";
-import styled from "styled-components";
+import { Row, Col } from "react-bootstrap";
 
-import SearchCitySelect from "../components/SearchCitySelect";
-
-export const SearchCardWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  height: 100vh;
-  max-width: 734px;
-  margin-left: auto;
-  margin-right: auto;
-`;
-
-export const SearchCityCard = styled(Card)`
-  padding: 62px;
-  border: unset;
-`;
-
-const CircleIcon = styled.img`
-    position: absolute;
-    bottom: 10px;
-  `,
-  DestinationIcon = CircleIcon;
-
-const RouteIcon = styled.img`
-  position: absolute;
-  left: 17px;
-  bottom: 32px;
-`;
-
-const AddDestinationButton = styled.span`
-  color: #7786d2;
-  font-size: 12px;
-  cursor: pointer;
-`;
+import SearchCitySelect from "../../components/SearchCitySelect";
+import {
+  SearchCardWrapper,
+  SearchCityCard,
+  CircleIcon,
+  DestinationIcon,
+  RouteIcon,
+  AddDestinationButton,
+} from "./components";
 
 interface DestinationInput {
   value: string;
