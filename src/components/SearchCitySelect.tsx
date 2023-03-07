@@ -16,10 +16,12 @@ interface SearchCitySelectProps {
 const SpinnerWrapper = styled.div`
   position: absolute;
   display: flex;
+  background: white;
   width: 100%;
   border: 1px solid #c7d1f4;
   border-radius: 8px;
   top: calc(100% + 7px);
+  z-index: 10;
 
   &::before {
     content: "";
@@ -40,6 +42,7 @@ const CityListGroup = styled(ListGroup)`
   border: 1px solid #c7d1f4;
   border-radius: 8px;
   padding: 6px;
+  z-index: 10;
 
   &::before {
     content: "";
