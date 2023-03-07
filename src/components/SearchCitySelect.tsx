@@ -62,6 +62,18 @@ const CityListGroup = styled(ListGroup)`
   }
 `;
 
+const CrossIcon = styled.img`
+  cursor: pointer;
+  position: absolute;
+  right: 12px;
+  bottom: 11px;
+`;
+
+const InputLabel = styled(Form.Label)`
+  font-size: 12px;
+  font-weight: 500;
+`;
+
 const SearchCitySelect = ({ label, ...otherProps }: SearchCitySelectProps) => {
   const [inputValue, setInputValue] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -90,15 +102,27 @@ const SearchCitySelect = ({ label, ...otherProps }: SearchCitySelectProps) => {
     setResult([]);
   }
 
+  function clearInput() {
+    setInputValue("");
+    setResult([]);
+  }
+
   return (
     <Form.Group className="position-relative">
-      <Form.Label>{label}</Form.Label>
+      <InputLabel>{label}</InputLabel>
       <Form.Control
         type="string"
         {...otherProps}
         onChange={handleOnChange}
         value={inputValue}
       />
+      {inputValue && (
+        <CrossIcon
+          src="/images/cross_icon.png"
+          alt="cross icon"
+          onClick={clearInput}
+        />
+      )}
       {isLoading && (
         <SpinnerWrapper>
           <Spinner />
