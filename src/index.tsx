@@ -7,6 +7,7 @@ import { makeServer } from "./mock-backend";
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 if (process.env.NODE_ENV === "development") {
   makeServer({ environment: "development" });

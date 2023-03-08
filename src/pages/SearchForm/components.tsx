@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 
 export const SearchCardWrapper = styled.div`
   display: flex;
@@ -32,4 +32,9 @@ export const AddDestinationButton = styled.span`
   color: #7786d2;
   font-size: 12px;
   cursor: pointer;
+`;
+
+export const SubmitButton = styled(Button)`
+  margin-left: auto;
+  margin-right: auto;
 `;
