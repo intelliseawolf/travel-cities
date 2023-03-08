@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 
 import SearchForm from "./pages/SearchForm";
+import SearchResult from "./pages/SearchResult";
 
 const Wrapper = styled.main`
   background: url("/images/background.jpg");
@@ -16,6 +17,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SearchForm />} />
+          <Route path="/result" element={<SearchResult />} />
         </Routes>
       </BrowserRouter>
     </Wrapper>

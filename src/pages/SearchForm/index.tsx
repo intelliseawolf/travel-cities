@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { Row, Col, Form } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -33,6 +34,7 @@ const SearchForm = () => {
   ]);
   const [isTouchDestinationCities, setIsTouchDestinationCities] =
     useState<boolean>(false);
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       originCity: "",
@@ -42,7 +44,7 @@ const SearchForm = () => {
     },
     validationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      navigate("/result", { state: values });
     },
   });
 
@@ -92,7 +94,7 @@ const SearchForm = () => {
   return (
     <SearchCardWrapper>
       <SearchCityCard className="w-100">
-        <Form>
+        <Form onSubmit={formik.handleSubmit}>
           <Row>
             <Col xs={6} md={9}>
               <Row>
@@ -186,7 +188,11 @@ const SearchForm = () => {
               </div>
             </Col>
             <div className="d-flex mt-4">
-              <SubmitButton variant="secondary" disabled={isSubmitDisabled}>
+              <SubmitButton
+                variant="secondary"
+                disabled={isSubmitDisabled}
+                type="submit"
+              >
                 Submit
               </SubmitButton>
             </div>
