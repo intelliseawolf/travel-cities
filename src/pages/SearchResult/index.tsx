@@ -1,10 +1,22 @@
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import { SearchCardWrapper, SearchCityCard } from "../SearchForm/components";
+import { getCalcuateDistances } from "../../redux/modules/citySlice";
+import { useAppDispatch } from "../../redux/hooks";
 
 const SearchResult = () => {
   const location = useLocation();
-  console.log(location.state);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(
+      getCalcuateDistances([
+        location.state.originCity,
+        ...location.state.destinationCities,
+      ])
+    );
+  }, [location.state.originCity, location.state.destinationCities, dispatch]);
 
   return (
     <SearchCardWrapper>

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosResponse } from "axios";
 
 import { calcuateDistances } from "../../services/cityService";
@@ -33,7 +33,7 @@ export const citySlice = createSlice({
       })
       .addCase(getCalcuateDistances.fulfilled, (state, action) => {
         state.status = "idle";
-        state.distances = action.payload.results;
+        state.distances = action.payload.distances;
       })
       .addCase(getCalcuateDistances.rejected, (state) => {
         state.status = "failed";
