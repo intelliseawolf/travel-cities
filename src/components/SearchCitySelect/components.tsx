@@ -63,4 +63,5 @@ export const CrossIcon = styled.img`
 export const InputLabel = styled(Form.Label)`
   font-size: 12px;
   font-weight: 500;
+  margin-bottom: 0;
 `;

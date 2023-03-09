@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, FocusEvent } from "react";
 import { Form, ListGroup } from "react-bootstrap";
 import { debounce } from "lodash";
 import { AxiosResponse } from "axios";
@@ -15,11 +15,21 @@ import type { City } from "../../types";
 
 interface SearchCitySelectProps {
   label: string;
+  onChange: Function;
+  onBlur?: Function;
   [key: string]: any;
+  value: string;
 }
 
-const SearchCitySelect = ({ label, ...otherProps }: SearchCitySelectProps) => {
-  const [inputValue, setInputValue] = useState<string>("");
+const SearchCitySelect = ({
+  label,
+  onChange,
+  onBlur,
+  value,
+  ...otherProps
+}: SearchCitySelectProps) => {
+  const [inputValue, setInputValue] = useState<string>(value);
+  const [isClickItem, setIsClickItem] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [result, setResult] = useState<City[]>([]);
 
@@ -38,17 +48,27 @@ const SearchCitySelect = ({ label, ...otherProps }: SearchCitySelectProps) => {
 
   function handleOnChange(event: ChangeEvent<HTMLInputElement>) {
     debounceSearchCity(event.target.value);
+    setIsClickItem(false);
     setInputValue(event.target.value);
   }
 
   function handleClickItem(index: number) {
     setInputValue(result[index].name);
+    setIsClickItem(true);
+    onChange(result[index].name);
     setResult([]);
   }
 
   function clearInput() {
     setInputValue("");
+    setIsClickItem(false);
+    onChange("");
     setResult([]);
+  }
+
+  function handleOnBlur(event: FocusEvent<HTMLInputElement>) {
+    if (onBlur) onBlur(event);
+    if (!isClickItem) onChange("");
   }
 
   return (
@@ -58,6 +78,7 @@ const SearchCitySelect = ({ label, ...otherProps }: SearchCitySelectProps) => {
         type="string"
         {...otherProps}
         onChange={handleOnChange}
+        onBlur={handleOnBlur}
         value={inputValue}
       />
       {inputValue && (

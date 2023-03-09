@@ -6,17 +6,19 @@ import { InputWrapper } from "./components";
 
 interface PassengerInputProps {
   value?: number;
+  onChange: Function;
 }
 
-const PassengerInput = ({ value = 10 }: PassengerInputProps) => {
+const PassengerInput = ({ value, onChange }: PassengerInputProps) => {
   const [inputValue, setInputValue] = useState<number>(0);
 
   useEffect(() => {
-    setInputValue(value);
+    setInputValue(Number(value));
   }, [value]);
 
   function handleInputValue(val: number) {
     setInputValue(val);
+    onChange(value);
   }
 
   return (
