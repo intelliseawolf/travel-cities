@@ -18,7 +18,7 @@ const PassengerInput = ({ value, onChange }: PassengerInputProps) => {
 
   function handleInputValue(val: number) {
     setInputValue(val);
-    onChange(value);
+    onChange(val);
   }
 
   return (

@@ -23,6 +23,7 @@ interface DestinationInput {
 
 const validationSchema = Yup.object().shape({
   originCity: Yup.string().required("You must choose the city of origin"),
+  passenger: Yup.number().min(1, "Select passengers"),
 });
 
 const SearchForm = () => {
@@ -65,8 +66,11 @@ const SearchForm = () => {
   }
 
   function updatePassenger(value: number) {
+    console.log(",", value);
     formik.setFieldValue("passenger", value);
   }
+
+  console.log(formik.values.passenger);
 
   return (
     <SearchCardWrapper>
@@ -87,7 +91,7 @@ const SearchForm = () => {
                     value={formik.values.originCity}
                     onBlur={formik.handleBlur}
                   />
-                  {formik.errors.originCity && (
+                  {formik.touched.originCity && formik.errors.originCity && (
                     <ErrorMessage>{formik.errors.originCity}</ErrorMessage>
                   )}
                 </Col>
@@ -146,11 +150,18 @@ const SearchForm = () => {
             </Col>
             <Col xs={0} md={1}></Col>
             <Col xs={6} md={2}>
-              <PassengerInput
-                value={formik.values.passenger}
-                onChange={(value: number) => updatePassenger(value)}
-              />
-              <DateInput label="Date" className="mt-2" />
+              <div className="position-relative">
+                <PassengerInput
+                  value={formik.values.passenger}
+                  onChange={(value: number) => updatePassenger(value)}
+                />
+                {formik.errors.passenger && (
+                  <ErrorMessage>{formik.errors.passenger}</ErrorMessage>
+                )}
+              </div>
+              <div className="position-relative">
+                <DateInput label="Date" className="mt-3" />
+              </div>
             </Col>
             <div className="d-flex mt-4">
               <SubmitButton variant="secondary">Submit</SubmitButton>

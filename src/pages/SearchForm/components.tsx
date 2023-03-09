@@ -45,4 +45,5 @@ export const ErrorMessage = styled.span`
   font-weight: 500;
   font-size: 12px;
   color: #ff0000;
+  white-space: nowrap;
 `;
