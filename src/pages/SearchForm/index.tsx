@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -24,6 +24,7 @@ interface DestinationInput {
 const validationSchema = Yup.object().shape({
   originCity: Yup.string().required("You must choose the city of origin"),
   passenger: Yup.number().min(1, "Select passengers"),
+  date: Yup.string().required("Select date"),
 });
 
 const SearchForm = () => {
@@ -45,8 +46,23 @@ const SearchForm = () => {
     },
   });
 
+  const isSubmitDisabled = useMemo(() => {
+    let destinationValidation = false;
+
+    if (!formik.values.destinationCities.length) destinationValidation = true;
+    for (let city of formik.values.destinationCities) {
+      if (!city) destinationValidation = true;
+    }
+
+    return destinationValidation || !formik.dirty || !formik.isValid;
+  }, [formik.dirty, formik.isValid, formik.values.destinationCities]);
+
   function addDestination() {
     setDestinations([...destinations, { value: "" }]);
+    const destinationCities: string[] = formik.values.destinationCities;
+
+    destinationCities[destinationCities.length] = "";
+    formik.setFieldValue("destinationCities", [...destinationCities]);
   }
 
   function updateFormikOriginCity(value: string) {
@@ -55,9 +71,9 @@ const SearchForm = () => {
 
   function updateFomikDestinations(index: number, value: string) {
     const destinationCities: string[] = formik.values.destinationCities;
-    if (destinationCities[index]) destinationCities[index] = value;
 
-    formik.setFieldValue("destinationCities", destinationCities);
+    destinationCities[index] = value;
+    formik.setFieldValue("destinationCities", [...destinationCities]);
   }
 
   function validateDestination(destinationCities: string[], index: number) {
@@ -66,11 +82,12 @@ const SearchForm = () => {
   }
 
   function updatePassenger(value: number) {
-    console.log(",", value);
     formik.setFieldValue("passenger", value);
   }
 
-  console.log(formik.values.passenger);
+  function updateDate(value: Date | null) {
+    formik.setFieldValue("date", value);
+  }
 
   return (
     <SearchCardWrapper>
@@ -120,7 +137,7 @@ const SearchForm = () => {
                         onChange={(val: string) =>
                           updateFomikDestinations(index, val)
                         }
-                        value={formik.values.destinationCities[index]}
+                        value=""
                         onBlur={() => setIsTouchDestinationCities(true)}
                       />
                       {validateDestination(
@@ -160,11 +177,18 @@ const SearchForm = () => {
                 )}
               </div>
               <div className="position-relative">
-                <DateInput label="Date" className="mt-3" />
+                <DateInput
+                  label="Date"
+                  className="mt-3"
+                  value={formik.values.date}
+                  onChange={(value: Date | null) => updateDate(value)}
+                />
               </div>
             </Col>
             <div className="d-flex mt-4">
-              <SubmitButton variant="secondary">Submit</SubmitButton>
+              <SubmitButton variant="secondary" disabled={isSubmitDisabled}>
+                Submit
+              </SubmitButton>
             </div>
           </Row>
         </Form>
