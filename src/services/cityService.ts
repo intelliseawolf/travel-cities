@@ -6,4 +6,8 @@ const searchCity = (keyword: string) => {
   return axios.get(`${serverURL}/search_cities`, { params: { keyword } });
 };
 
-export { searchCity };
+const calcuateDistances = (cities: string[]) => {
+  return axios.post(`${serverURL}/calculate_distances`, cities);
+};
+
+export { searchCity, calcuateDistances };
