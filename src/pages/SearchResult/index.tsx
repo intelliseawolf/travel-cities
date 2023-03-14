@@ -1,15 +1,15 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import queryString from "query-string";
 
 import { SearchCardWrapper, SearchCityCard } from "../SearchForm/components";
 import Spinner from "../../components/Spinner";
 import { getCalcuateDistances } from "../../redux/modules/citySlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { CityName, RouteIcon, Distance, CityOtherInfo } from "./components";
+import { getCityFormFromURL } from "../../utils/city";
 
-interface CityForm {
+export interface CityForm {
   date: string;
   destinationCities: string[];
   originCity: string;
@@ -35,18 +35,7 @@ const SearchResult = () => {
   }, [distances]);
 
   useEffect(() => {
-    const parsedQuery = queryString.parse(location.search) as {
-      [key: string]: string;
-    };
-
-    cityFormValue.current = {
-      date: parsedQuery.date || "",
-      destinationCities: parsedQuery.destinationCities
-        ? parsedQuery.destinationCities.toString().split(",")
-        : [],
-      originCity: parsedQuery.originCity || "",
-      passenger: parsedQuery.passenger || "",
-    };
+    cityFormValue.current = getCityFormFromURL(location.search);
   }, [location]);
 
   useEffect(() => {

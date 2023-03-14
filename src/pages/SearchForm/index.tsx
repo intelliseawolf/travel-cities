@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useMemo, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Row, Col, Form } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -18,10 +18,7 @@ import {
   SubmitButton,
   ErrorMessage,
 } from "./components";
-
-interface DestinationInput {
-  value: string;
-}
+import { getCityFormFromURL } from "../../utils/city";
 
 const validationSchema = Yup.object().shape({
   originCity: Yup.string().required("You must choose the city of origin"),
@@ -30,24 +27,21 @@ const validationSchema = Yup.object().shape({
 });
 
 const SearchForm = () => {
-  const [destinations, setDestinations] = useState<DestinationInput[]>([
-    { value: "" },
-  ]);
   const [isTouchDestinationCities, setIsTouchDestinationCities] =
     useState<boolean>(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const formik = useFormik({
-    initialValues: {
-      originCity: "",
-      destinationCities: [],
-      passenger: 10,
-      date: "01/01/2023",
-    },
+    initialValues: getCityFormFromURL(location.search),
     validationSchema,
     onSubmit: (values) => {
       navigate(`/result?${queryString.stringify(values)}`);
     },
   });
+
+  useEffect(() => {
+    navigate(`/?${queryString.stringify(formik.values)}`);
+  }, [formik.values, navigate]);
 
   const isSubmitDisabled = useMemo(() => {
     let destinationValidation = false;
@@ -57,11 +51,10 @@ const SearchForm = () => {
       if (!city) destinationValidation = true;
     }
 
-    return destinationValidation || !formik.dirty || !formik.isValid;
+    return destinationValidation || !formik.isValid;
   }, [formik.dirty, formik.isValid, formik.values.destinationCities]);
 
   function addDestination() {
-    setDestinations([...destinations, { value: "" }]);
     const destinationCities: string[] = formik.values.destinationCities;
 
     destinationCities[destinationCities.length] = "";
@@ -115,14 +108,14 @@ const SearchForm = () => {
                     <ErrorMessage>{formik.errors.originCity}</ErrorMessage>
                   )}
                 </Col>
-                {destinations.map((_, index) => (
+                {formik.values.destinationCities.map((city, index) => (
                   <React.Fragment key={index}>
                     <Col xs={2} className="position-relative mt-3">
                       <RouteIcon
                         src="/images/route_icon.png"
                         alt="route icon"
                       />
-                      {index + 1 === destinations.length ? (
+                      {index + 1 === formik.values.destinationCities.length ? (
                         <DestinationIcon
                           src="/images/destination_icon.png"
                           alt="destination icon"
@@ -140,7 +133,7 @@ const SearchForm = () => {
                         onChange={(val: string) =>
                           updateFomikDestinations(index, val)
                         }
-                        value=""
+                        value={city}
                         onBlur={() => setIsTouchDestinationCities(true)}
                       />
                       {validateDestination(
@@ -172,7 +165,7 @@ const SearchForm = () => {
             <Col xs={6} md={2}>
               <div className="position-relative">
                 <PassengerInput
-                  value={formik.values.passenger}
+                  value={Number(formik.values.passenger)}
                   onChange={(value: number) => updatePassenger(value)}
                 />
                 {formik.errors.passenger && (
