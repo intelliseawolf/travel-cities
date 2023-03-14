@@ -6,7 +6,13 @@ import { SearchCardWrapper, SearchCityCard } from "../SearchForm/components";
 import Spinner from "../../components/Spinner";
 import { getCalcuateDistances } from "../../redux/modules/citySlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { CityName, RouteIcon, Distance, CityOtherInfo } from "./components";
+import {
+  CityName,
+  RouteIcon,
+  Distance,
+  CityOtherInfo,
+  ErrorMessage,
+} from "./components";
 import { getCityFormFromURL } from "../../utils/city";
 
 export interface CityForm {
@@ -65,7 +71,7 @@ const SearchResult = () => {
         ) : (
           <div className="d-flex flex-column align-items-center">
             {status === "failed" ? (
-              <h1>Failed, Please try again!</h1>
+              <ErrorMessage>Oops! Something went wrong!</ErrorMessage>
             ) : (
               <>
                 <div className="position-relative">
@@ -113,7 +119,7 @@ const SearchResult = () => {
 
             <Button
               variant="secondary"
-              className="mt-4"
+              className="mt-4 w-sm-full"
               onClick={() => navigate("/")}
             >
               Back

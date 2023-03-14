@@ -55,3 +55,13 @@ code {
 .cursor-pointer {
   cursor: pointer;
 }
+
+@media screen and (max-width: 576px) {
+  .mt-sm-3 {
+    margin-top: 1rem !important;
+  }
+
+  .w-sm-full {
+    width: 100%;
+  }
+}

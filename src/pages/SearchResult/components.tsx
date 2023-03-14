@@ -49,3 +49,10 @@ export const CityOtherInfo = styled.div`
     color: #7786d2;
   }
 `;
+
+export const ErrorMessage = styled.span`
+  font-size: 16px;
+  color: #7786d2;
+  padding-top: 80px;
+  padding-bottom: 80px;
+`;

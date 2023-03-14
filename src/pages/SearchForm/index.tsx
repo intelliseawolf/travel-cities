@@ -90,7 +90,7 @@ const SearchForm = () => {
       <SearchCityCard className="w-100">
         <Form onSubmit={formik.handleSubmit}>
           <Row>
-            <Col xs={6} md={9}>
+            <Col xs={12} md={9}>
               <Row>
                 <Col xs={2} className="position-relative">
                   <CircleIcon src="/images/circle_icon.png" alt="circle icon" />
@@ -162,30 +162,38 @@ const SearchForm = () => {
               </Row>
             </Col>
             <Col xs={0} md={1}></Col>
-            <Col xs={6} md={2}>
-              <div className="position-relative">
-                <PassengerInput
-                  value={Number(formik.values.passenger)}
-                  onChange={(value: number) => updatePassenger(value)}
-                />
-                {formik.errors.passenger && (
-                  <ErrorMessage>{formik.errors.passenger}</ErrorMessage>
-                )}
-              </div>
-              <div className="position-relative">
-                <DateInput
-                  label="Date"
-                  className="mt-3"
-                  value={formik.values.date}
-                  onChange={(value: Date | null) => updateDate(value)}
-                />
-              </div>
+            <Col xs={12} md={2}>
+              <Row>
+                <Col xs={2} md={0}></Col>
+                <Col xs={5} md={12}>
+                  <div className="position-relative mt-sm-3">
+                    <PassengerInput
+                      value={Number(formik.values.passenger)}
+                      onChange={(value: number) => updatePassenger(value)}
+                    />
+                    {formik.errors.passenger && (
+                      <ErrorMessage>{formik.errors.passenger}</ErrorMessage>
+                    )}
+                  </div>
+                </Col>
+                <Col xs={5} md={12}>
+                  <div className="position-relative">
+                    <DateInput
+                      label="Date"
+                      className="mt-3"
+                      value={formik.values.date}
+                      onChange={(value: Date | null) => updateDate(value)}
+                    />
+                  </div>
+                </Col>
+              </Row>
             </Col>
             <div className="d-flex mt-4">
               <SubmitButton
                 variant="secondary"
                 disabled={isSubmitDisabled}
                 type="submit"
+                className="w-sm-full"
               >
                 Submit
               </SubmitButton>
