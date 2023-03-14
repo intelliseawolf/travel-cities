@@ -1,4 +1,4 @@
-import { createServer } from "miragejs";
+import { createServer, Response } from "miragejs";
 
 import type { City } from "../types";
 
@@ -54,6 +54,8 @@ export function makeServer({ environment = "development" } = {}) {
           const keyword: string = request.queryParams.keyword;
           let filteredByKeywordCities: City[] = [];
 
+          if (keyword === "fail")
+            return new Response(400, {}, { error: "fail_search_city" });
           if (keyword)
             filteredByKeywordCities = cities.filter((city) =>
               city.name.toLowerCase().includes(keyword.toLowerCase())

@@ -2,6 +2,7 @@ import { useState, ChangeEvent, FocusEvent } from "react";
 import { Form, ListGroup } from "react-bootstrap";
 import { debounce } from "lodash";
 import { AxiosResponse } from "axios";
+import { toast } from "react-toastify";
 
 import {
   SpinnerWrapper,
@@ -42,7 +43,14 @@ const SearchCitySelect = ({
         setIsLoading(false);
       })
       .catch((error) => {
-        console.error(error);
+        setResult([]);
+        setIsLoading(false);
+        if (
+          error.response.status === 400 &&
+          error.response.data.error === "fail_search_city"
+        )
+          return toast.error("Fail on searching city");
+        return toast.error("Internal Server Error!");
       });
   }, 500);
 

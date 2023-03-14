@@ -52,7 +52,7 @@ const SearchForm = () => {
     }
 
     return destinationValidation || !formik.isValid;
-  }, [formik.dirty, formik.isValid, formik.values.destinationCities]);
+  }, [formik.isValid, formik.values.destinationCities]);
 
   function addDestination() {
     const destinationCities: string[] = formik.values.destinationCities;
