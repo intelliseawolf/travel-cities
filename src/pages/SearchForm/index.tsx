@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Row, Col, Form } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import queryString from "query-string";
 
 import SearchCitySelect from "../../components/SearchCitySelect";
 import PassengerInput from "../../components/PassengerInput";
@@ -44,7 +45,7 @@ const SearchForm = () => {
     },
     validationSchema,
     onSubmit: (values) => {
-      navigate("/result", { state: values });
+      navigate(`/result?${queryString.stringify(values)}`);
     },
   });
 

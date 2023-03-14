@@ -1,6 +1,7 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import queryString from "query-string";
 
 import { SearchCardWrapper, SearchCityCard } from "../SearchForm/components";
 import Spinner from "../../components/Spinner";
@@ -8,7 +9,20 @@ import { getCalcuateDistances } from "../../redux/modules/citySlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { CityName, RouteIcon, Distance, CityOtherInfo } from "./components";
 
+interface CityForm {
+  date: string;
+  destinationCities: string[];
+  originCity: string;
+  passenger: string;
+}
+
 const SearchResult = () => {
+  const cityFormValue = useRef<CityForm>({
+    date: "",
+    destinationCities: [],
+    originCity: "",
+    passenger: "",
+  });
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -21,13 +35,28 @@ const SearchResult = () => {
   }, [distances]);
 
   useEffect(() => {
+    const parsedQuery = queryString.parse(location.search) as {
+      [key: string]: string;
+    };
+
+    cityFormValue.current = {
+      date: parsedQuery.date || "",
+      destinationCities: parsedQuery.destinationCities
+        ? parsedQuery.destinationCities.toString().split(",")
+        : [],
+      originCity: parsedQuery.originCity || "",
+      passenger: parsedQuery.passenger || "",
+    };
+  }, [location]);
+
+  useEffect(() => {
     dispatch(
       getCalcuateDistances([
-        location.state.originCity,
-        ...location.state.destinationCities,
+        cityFormValue.current.originCity,
+        ...cityFormValue.current.destinationCities,
       ])
     );
-  }, [location.state.originCity, location.state.destinationCities, dispatch]);
+  }, [dispatch]);
 
   function formatDate(date: string) {
     const dateObj: Date = new Date(date);
@@ -48,16 +77,17 @@ const SearchResult = () => {
           <div className="d-flex flex-column align-items-center">
             <div className="position-relative">
               <img src="/images/circle_icon.png" alt="circle icon" />
-              <CityName>{location.state.originCity}</CityName>
+              <CityName>{cityFormValue.current.originCity}</CityName>
             </div>
-            {location.state.destinationCities.map(
+            {cityFormValue.current.destinationCities.map(
               (city: string, index: number) => (
                 <div className="position-relative mt-3" key={city + index}>
                   <RouteIcon
                     src="/images/result_route_icon.png"
                     alt="route icon"
                   />
-                  {index + 1 === location.state.destinationCities.length ? (
+                  {index + 1 ===
+                  cityFormValue.current.destinationCities.length ? (
                     <img
                       src="/images/destination_icon.png"
                       alt="destination icon"
@@ -75,12 +105,14 @@ const SearchResult = () => {
               distance
             </CityOtherInfo>
             <CityOtherInfo className="mt-2">
-              <span className="purple-color">{location.state.passenger}</span>{" "}
+              <span className="purple-color">
+                {cityFormValue.current.passenger}
+              </span>{" "}
               passengers
             </CityOtherInfo>
             <CityOtherInfo className="mt-2">
               <span className="purple-color">
-                {formatDate(location.state.date)}
+                {formatDate(cityFormValue.current.date)}
               </span>
             </CityOtherInfo>
 
