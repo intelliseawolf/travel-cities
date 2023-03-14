@@ -166,7 +166,7 @@ const SearchForm = () => {
               <Row>
                 <Col xs={2} md={0}></Col>
                 <Col xs={5} md={12}>
-                  <div className="position-relative mt-sm-3">
+                  <div className="position-relative mt-sm-1rem">
                     <PassengerInput
                       value={Number(formik.values.passenger)}
                       onChange={(value: number) => updatePassenger(value)}
