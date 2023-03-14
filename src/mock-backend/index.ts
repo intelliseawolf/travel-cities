@@ -51,14 +51,14 @@ export function makeServer({ environment = "development" } = {}) {
       this.get(
         "/search_cities",
         (_, request) => {
-          const keyword: string = request.queryParams.keyword;
+          const keyword: string = request.queryParams.keyword.toLowerCase();
           let filteredByKeywordCities: City[] = [];
 
           if (keyword === "fail")
             return new Response(400, {}, { error: "fail_search_city" });
           if (keyword)
             filteredByKeywordCities = cities.filter((city) =>
-              city.name.toLowerCase().includes(keyword.toLowerCase())
+              city.name.toLowerCase().includes(keyword)
             );
 
           return {
@@ -76,6 +76,13 @@ export function makeServer({ environment = "development" } = {}) {
 
           for (let i in requestBody) {
             const index = Number(i);
+
+            if (requestBody[index] === "Dijon")
+              return new Response(
+                400,
+                {},
+                { error: "fail_calculate_distances" }
+              );
             if (index === 0) continue;
             const location1 = findLocationByName(requestBody[index - 1]),
               location2 = findLocationByName(requestBody[index]);

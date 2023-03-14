@@ -64,46 +64,52 @@ const SearchResult = () => {
           <Spinner />
         ) : (
           <div className="d-flex flex-column align-items-center">
-            <div className="position-relative">
-              <img src="/images/circle_icon.png" alt="circle icon" />
-              <CityName>{cityFormValue.current.originCity}</CityName>
-            </div>
-            {cityFormValue.current.destinationCities.map(
-              (city: string, index: number) => (
-                <div className="position-relative mt-3" key={city + index}>
-                  <RouteIcon
-                    src="/images/result_route_icon.png"
-                    alt="route icon"
-                  />
-                  {index + 1 ===
-                  cityFormValue.current.destinationCities.length ? (
-                    <img
-                      src="/images/destination_icon.png"
-                      alt="destination icon"
-                    />
-                  ) : (
-                    <img src="/images/circle_icon.png" alt="circle icon" />
-                  )}
-                  <CityName>{city}</CityName>
-                  <Distance>{distances[index]}km</Distance>
+            {status === "failed" ? (
+              <h1>Failed, Please try again!</h1>
+            ) : (
+              <>
+                <div className="position-relative">
+                  <img src="/images/circle_icon.png" alt="circle icon" />
+                  <CityName>{cityFormValue.current.originCity}</CityName>
                 </div>
-              )
+                {cityFormValue.current.destinationCities.map(
+                  (city: string, index: number) => (
+                    <div className="position-relative mt-3" key={city + index}>
+                      <RouteIcon
+                        src="/images/result_route_icon.png"
+                        alt="route icon"
+                      />
+                      {index + 1 ===
+                      cityFormValue.current.destinationCities.length ? (
+                        <img
+                          src="/images/destination_icon.png"
+                          alt="destination icon"
+                        />
+                      ) : (
+                        <img src="/images/circle_icon.png" alt="circle icon" />
+                      )}
+                      <CityName>{city}</CityName>
+                      <Distance>{distances[index]}km</Distance>
+                    </div>
+                  )
+                )}
+                <CityOtherInfo>
+                  <span className="purple-color">{totalDistance} km</span> is
+                  total distance
+                </CityOtherInfo>
+                <CityOtherInfo className="mt-2">
+                  <span className="purple-color">
+                    {cityFormValue.current.passenger}
+                  </span>{" "}
+                  passengers
+                </CityOtherInfo>
+                <CityOtherInfo className="mt-2">
+                  <span className="purple-color">
+                    {formatDate(cityFormValue.current.date)}
+                  </span>
+                </CityOtherInfo>
+              </>
             )}
-            <CityOtherInfo>
-              <span className="purple-color">{totalDistance} km</span> is total
-              distance
-            </CityOtherInfo>
-            <CityOtherInfo className="mt-2">
-              <span className="purple-color">
-                {cityFormValue.current.passenger}
-              </span>{" "}
-              passengers
-            </CityOtherInfo>
-            <CityOtherInfo className="mt-2">
-              <span className="purple-color">
-                {formatDate(cityFormValue.current.date)}
-              </span>
-            </CityOtherInfo>
 
             <Button
               variant="secondary"

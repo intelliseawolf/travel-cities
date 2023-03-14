@@ -49,7 +49,7 @@ const SearchCitySelect = ({
           error.response.status === 400 &&
           error.response.data.error === "fail_search_city"
         )
-          return toast.error("Fail on searching city");
+          return toast.error("Failed in searching city");
         return toast.error("Internal Server Error!");
       });
   }, 500);
