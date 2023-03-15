@@ -38,4 +38,10 @@ describe("test city form", () => {
     cy.get("input#destinationCity0").should("have.value", "Montpellier");
     cy.get('[data-cy="passengerInput"]').contains("9");
   });
+
+  it("result error message when search the city with fail keyword", () => {
+    cy.visit("http://localhost:3000");
+    cy.get("input#originCity").type("fail");
+    cy.contains("Failed in searching city");
+  });
 });
