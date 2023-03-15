@@ -76,7 +76,9 @@ const SearchResult = () => {
               <>
                 <div className="position-relative">
                   <img src="/images/circle_icon.png" alt="circle icon" />
-                  <CityName>{cityFormValue.current.originCity}</CityName>
+                  <CityName data-cy="originCityName">
+                    {cityFormValue.current.originCity}
+                  </CityName>
                 </div>
                 {cityFormValue.current.destinationCities.map(
                   (city: string, index: number) => (
@@ -94,7 +96,9 @@ const SearchResult = () => {
                       ) : (
                         <img src="/images/circle_icon.png" alt="circle icon" />
                       )}
-                      <CityName>{city}</CityName>
+                      <CityName data-cy={"destinationCityName" + index}>
+                        {city}
+                      </CityName>
                       <Distance>{distances[index]}km</Distance>
                     </div>
                   )
@@ -104,13 +108,13 @@ const SearchResult = () => {
                   total distance
                 </CityOtherInfo>
                 <CityOtherInfo className="mt-2">
-                  <span className="purple-color">
+                  <span className="purple-color" data-cy="passengerCount">
                     {cityFormValue.current.passenger}
                   </span>{" "}
                   passengers
                 </CityOtherInfo>
                 <CityOtherInfo className="mt-2">
-                  <span className="purple-color">
+                  <span className="purple-color" data-cy="date">
                     {formatDate(cityFormValue.current.date)}
                   </span>
                 </CityOtherInfo>
