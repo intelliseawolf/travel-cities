@@ -130,6 +130,7 @@ const SearchForm = () => {
                     <Col xs={10} className="mt-3 position-relative">
                       <SearchCitySelect
                         label="City of destination"
+                        id={"destinationCity" + index}
                         onChange={(val: string) =>
                           updateFomikDestinations(index, val)
                         }
@@ -142,7 +143,7 @@ const SearchForm = () => {
                       ) &&
                         isTouchDestinationCities && (
                           <ErrorMessage>
-                            You must choose the city of origin
+                            You must choose the city of destination
                           </ErrorMessage>
                         )}
                     </Col>
@@ -155,7 +156,10 @@ const SearchForm = () => {
                   <img src="/images/plus_icon.png" alt="plus icon" />
                 </Col>
                 <Col xs={10} className="mt-4">
-                  <AddDestinationButton onClick={addDestination}>
+                  <AddDestinationButton
+                    onClick={addDestination}
+                    data-cy="addDestination"
+                  >
                     Add destination
                   </AddDestinationButton>
                 </Col>

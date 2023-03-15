@@ -22,7 +22,7 @@ const PassengerInput = ({ value, onChange }: PassengerInputProps) => {
   }
 
   return (
-    <Form.Group className="position-relative">
+    <Form.Group className="position-relative" data-cy="passengerInput">
       <InputLabel>Passengers</InputLabel>
       <InputWrapper>
         <img
@@ -30,6 +30,7 @@ const PassengerInput = ({ value, onChange }: PassengerInputProps) => {
           onClick={() => handleInputValue(inputValue - 1)}
           src="/images/passenger_minus_icon.png"
           alt="passenger minus icon"
+          data-cy="minusPassenger"
         />
         <span>{inputValue}</span>
         <img
@@ -37,6 +38,7 @@ const PassengerInput = ({ value, onChange }: PassengerInputProps) => {
           onClick={() => handleInputValue(inputValue + 1)}
           src="/images/passenger_plus_icon.png"
           alt="passenger plus icon"
+          data-cy="plusPassenger"
         />
       </InputWrapper>
     </Form.Group>

@@ -102,7 +102,7 @@ const SearchCitySelect = ({
         </SpinnerWrapper>
       )}
       {result.length ? (
-        <CityListGroup>
+        <CityListGroup data-cy="citySearchResult">
           {result.map((item, index) => (
             <ListGroup.Item
               key={item.name + index}
